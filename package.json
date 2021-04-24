@@ -1,6 +1,6 @@
 {
-  "name": "abi-decoder",
-  "version": "2.3.0",
+  "name": "logs-decoder",
+  "version": "3.0.0",
   "description": "Nodejs and Javascript library for decoding data params and events from ethereum transactions\"",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,13 @@
     "abi",
     "decode"
   ],
-  "author": "denis@gnosis.pm",
+  "author": "me@decentraliser.dev",
+  "contributors": [
+    {
+      "name": "Denis",
+      "email": "denis@gnosis.pm"
+    }
+  ],
   "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/ConsenSys/abi-decoder/issues"
