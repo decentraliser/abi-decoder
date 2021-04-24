@@ -1,4 +1,4 @@
-const { sha3, BN } = require("web3-utils");
+const { sha3, BN, hexToNumber } = require("web3-utils");
 const abiCoder = require("web3-eth-abi");
 
 class LogsDecoder {
@@ -201,6 +201,9 @@ class LogsDecoder {
           name: method.name,
           events: decodedParams,
           address: logItem.address,
+          transactionHash: logItem.transactionHash,
+          blockNumber: String(hexToNumber(logItem.blockNumber)),
+          blockHash: logItem.blockHash,
         };
       }
     });

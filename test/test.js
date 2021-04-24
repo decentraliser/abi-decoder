@@ -180,7 +180,10 @@ describe("abi decoder", function () {
         {
           data : "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000003e80000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000000a666972652d6576656e7400000000000000000000000000000000000000000000",
           topics : ["0xe70874d47996054618fb5fc961c81a9ad9dfdfd01119e36286ef1a9720935598"],
-          address: "0xB8A71c450580726bAa7Bfe48b2DBE2b9a2f06764"
+          address: "0xB8A71c450580726bAa7Bfe48b2DBE2b9a2f06764",
+          transactionHash: "0xe4c14eeb82e9274c41b3cc70aa8563faa8fe070c82ba2bbff25a8aeeaeaf96eb",
+          blockNumber: "0xba6a96",
+          blockHash: "0x9142c80814a627cee5e7f8cae044ae020e1c756fd83c3cee92fdfeec958f2f5d",
         }
       ];
 
@@ -190,6 +193,9 @@ describe("abi decoder", function () {
     expect(decodedLogs[0].name).to.equal("Event");
     expect(decodedLogs[0].events).to.have.length(1);
     expect(decodedLogs[0].address).to.equal("0xB8A71c450580726bAa7Bfe48b2DBE2b9a2f06764");
+    expect(decodedLogs[0].transactionHash).to.equal("0xe4c14eeb82e9274c41b3cc70aa8563faa8fe070c82ba2bbff25a8aeeaeaf96eb");
+    expect(decodedLogs[0].blockNumber).to.equal("12216982");
+    expect(decodedLogs[0].blockHash).to.equal("0x9142c80814a627cee5e7f8cae044ae020e1c756fd83c3cee92fdfeec958f2f5d");
     expect(decodedLogs[0].events[0].name).to.equal("eventInfo");
     expect(decodedLogs[0].events[0].value).to.be.an("array");
     expect(decodedLogs[0].events[0].value[0]).to.be.equal("1000");
