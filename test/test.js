@@ -6,6 +6,11 @@ const testABI = [{"inputs": [{"type": "address", "name": ""}], "constant": true,
 const testArrNumbersABI = [{"constant":false,"inputs":[{"name":"n","type":"uint256[]"}],"name":"numbers","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"}];
 const abiV2 = [{"constant":false,"inputs":[{"components":[{"components":[{"internalType":"address","name":"target","type":"address"},{"internalType":"uint256","name":"gasLimit","type":"uint256"},{"internalType":"uint256","name":"gasPrice","type":"uint256"},{"internalType":"bytes","name":"encodedFunction","type":"bytes"}],"internalType":"struct EIP712Sig.CallData","name":"callData","type":"tuple"},{"components":[{"internalType":"address","name":"senderAccount","type":"address"},{"internalType":"uint256","name":"senderNonce","type":"uint256"},{"internalType":"address","name":"relayAddress","type":"address"},{"internalType":"uint256","name":"pctRelayFee","type":"uint256"}],"internalType":"struct EIP712Sig.RelayData","name":"relayData","type":"tuple"}],"internalType":"struct EIP712Sig.RelayRequest","name":"relayRequest","type":"tuple"},{"internalType":"bytes","name":"signature","type":"bytes"},{"internalType":"bytes","name":"approvalData","type":"bytes"}],"name":"relayCall","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}];
 
+// Mocks
+const transferWithAllIndexed =  require("./mocks/transferWithAllIndexed");
+const transferWithNothingIndexed = require("./mocks/transferWithNothingIndexed");
+
+// Instantiate a decoder
 const logsDecoder = LogsDecoder.create();
 
 describe("abi decoder", function () {
@@ -201,5 +206,43 @@ describe("abi decoder", function () {
     expect(decodedLogs[0].events[0].value[0]).to.be.equal("1000");
     expect(decodedLogs[0].events[0].value[1]).to.be.equal("fire-event");
     expect(decodedLogs[0].events[0].type).to.equal("tuple");
+  });
+
+  it("Can decode events with same signatures but different indexed values", function() {
+    const decoder = LogsDecoder.create();
+
+    decoder.addABI([  {
+      anonymous: false,
+      inputs: [
+        { indexed: true, name: "from", type: "address" },
+        { indexed: true, name: "to", type: "address" },
+        { indexed: true, name: "tokenId", type: "uint256" },
+      ],
+      name: "Transfer",
+      type: "event",
+    }]);
+
+    const abis = decoder.getABIs();
+    expect(abis).to.be.an("array");
+    expect(abis).to.have.length(1);
+    expect(decoder.decodeLogs(transferWithAllIndexed.logs)).to.deep.equal(transferWithAllIndexed.expectedDecodedLogs);
+    expect(decoder.decodeLogs(transferWithNothingIndexed.logs)).to.deep.equal([ undefined ]);
+
+    decoder.addABI([{
+      anonymous: false,
+      inputs: [
+        { indexed: false, name: "from", type: "address" },
+        { indexed: false, name: "to", type: "address" },
+        { indexed: false, name: "tokenId", type: "uint256" },
+      ],
+      name: "Transfer",
+      type: "event",
+    }]);
+
+    const updatedAbis = decoder.getABIs();
+    expect(updatedAbis).to.be.an("array");
+    expect(updatedAbis).to.have.length(2);
+    expect(decoder.decodeLogs(transferWithAllIndexed.logs)).to.deep.equal(transferWithAllIndexed.expectedDecodedLogs);
+    expect(decoder.decodeLogs(transferWithNothingIndexed.logs)).to.deep.equal(transferWithNothingIndexed.expectedDecodedLogs);
   });
 });
