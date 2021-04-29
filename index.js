@@ -215,6 +215,11 @@ class LogsDecoder {
         transactionHash: logItem.transactionHash,
         blockNumber: String(hexToNumber(logItem.blockNumber)),
         blockHash: logItem.blockHash,
+        timeStamp: String(hexToNumber(logItem.timeStamp)),
+        gasPrice: String(hexToNumber(logItem.gasPrice)),
+        gasUsed: String(hexToNumber(logItem.gasUsed)),
+        logIndex: String(hexToNumber(logItem.logIndex)),
+        transactionIndex: String(hexToNumber(logItem.transactionIndex)),
       };
     } catch (error) {
       return null;

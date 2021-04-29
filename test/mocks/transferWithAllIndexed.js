@@ -13,6 +13,9 @@ const logs = [{
   blockHash: "0x9142c80814a627cee5e7f8cae044ae020e1c756fd83c3cee92fdfeec958f2f5d",
   logIndex: "0xc2",
   removed: false,
+  timeStamp: "0x6072960e",
+  gasPrice: "0x1087ee0600",
+  gasUsed: "0x2c567",
 }];
 
 const expectedDecodedLogs = [
@@ -35,8 +38,12 @@ const expectedDecodedLogs = [
     blockNumber: "12216982",
     transactionHash: "0xe4c14eeb82e9274c41b3cc70aa8563faa8fe070c82ba2bbff25a8aeeaeaf96eb",
     blockHash: "0x9142c80814a627cee5e7f8cae044ae020e1c756fd83c3cee92fdfeec958f2f5d",
+    timeStamp: "1618122254",
+    gasPrice: "71000000000",
+    gasUsed: "181607",
+    logIndex: "194",
+    transactionIndex: "128",
   }
-
 ];
 
 module.exports = { logs, expectedDecodedLogs };
