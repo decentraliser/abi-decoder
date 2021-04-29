@@ -208,19 +208,22 @@ class LogsDecoder {
         decodedParams.push(decodedP);
       });
 
-      return {
+      const returnValues = {
         name: method.name,
         events: decodedParams,
         address: logItem.address,
         transactionHash: logItem.transactionHash,
         blockNumber: String(hexToNumber(logItem.blockNumber)),
         blockHash: logItem.blockHash,
-        timeStamp: String(hexToNumber(logItem.timeStamp)),
-        gasPrice: String(hexToNumber(logItem.gasPrice)),
-        gasUsed: String(hexToNumber(logItem.gasUsed)),
-        logIndex: String(hexToNumber(logItem.logIndex)),
-        transactionIndex: String(hexToNumber(logItem.transactionIndex)),
       };
+
+      if (logItem.timeStamp) returnValues["timeStamp"] = String(hexToNumber(logItem.timeStamp));
+      if (logItem.gasPrice) returnValues["gasPrice"] = String(hexToNumber(logItem.gasPrice));
+      if (logItem.gasUsed) returnValues["gasUsed"] = String(hexToNumber(logItem.gasUsed));
+      if (logItem.logIndex) returnValues["logIndex"] = String(hexToNumber(logItem.logIndex));
+      if (logItem.transactionIndex) returnValues["transactionIndex"] = String(hexToNumber(logItem.transactionIndex));
+
+      return returnValues;
     } catch (error) {
       return null;
     }
